@@ -1,0 +1,116 @@
+# config.yaml - LLM Council Configuration
+version: "1.0"
+
+# Agent configurations
+agents:
+  precise:
+    name: "Factual Analyst"
+    description: "Focuses on verifiable facts and data"
+    weight: 1.0
+    temperature: 0.3  # Low for consistency
+    max_tokens: 500
+
+  creative:
+    name: "Innovation Strategist"
+    description: "Explores unconventional approaches"
+    weight: 1.0
+    temperature: 0.8  # Higher for creativity
+    max_tokens: 500
+
+  conservative:
+    name: "Risk Assessor"
+    description: "Prioritizes safety and proven methods"
+    weight: 1.0
+    temperature: 0.4  # Medium for balanced risk
+    max_tokens: 500
+
+# Judge configurations
+judges:
+  judge_primary:
+    name: "Accuracy Judge"
+    focus: ["accuracy", "completeness", "citation_quality"]
+    weight: 0.5
+
+  judge_secondary:
+    name: "Impact Judge"
+    focus: ["clarity", "risk_awareness", "practicality"]
+    weight: 0.5
+
+# Rubric weights (sum to 1.0)
+rubric:
+  accuracy: 0.3
+  completeness: 0.25
+  clarity: 0.2
+  citation_quality: 0.15
+  risk_awareness: 0.1
+
+# Safety configuration
+safety:
+  levels:
+    safe:
+      threshold: 0.7
+      action: "proceed"
+    review:
+      threshold: 0.3
+      action: "flag_for_review"
+    blocked:
+      threshold: 0.0
+      action: "reject"
+
+  blocked_patterns:
+    - "illegal"
+    - "harmful"
+    - "dangerous"
+    - "kill"
+    - "hurt"
+    - "weapon"
+    - "explosive"
+    - "hack"
+
+  review_patterns:
+    - "uncertain"
+    - "maybe"
+    - "possibly"
+    - "not sure"
+    - "consult"
+    - "lawyer"
+    - "expert"
+    - "depends"
+
+# LLM API settings (for production)
+api:
+  openai:
+    model: "gpt-4-turbo-preview"
+    max_tokens: 1000
+
+  anthropic:
+    model: "claude-3-opus-20240229"
+    max_tokens: 1000
+
+  together:
+    model: "meta-llama/Llama-2-70b-chat-hf"
+    max_tokens: 1000
+
+# Output settings
+output:
+  save_decisions: true
+  decisions_dir: "decisions/"
+  audit_log: "audit/council_audit.log"
+  format: "json"
+  include_timestamps: true
+  include_metadata: true
+
+# Performance settings
+performance:
+  timeout_seconds: 30
+  max_retries: 3
+  cache_responses: true
+  cache_ttl_hours: 24
+
+# Testing settings
+testing:
+  mock_mode: true  # Set to false for real API calls
+  sample_questions:
+    - "What are effective risk mitigation strategies?"
+    - "How should we approach AI ethics?"
+    - "What factors determine startup success?"
